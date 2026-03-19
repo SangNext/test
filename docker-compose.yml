@@ -9,6 +9,7 @@ services:
       - DATABASE_PATH=/data/video-app.db
       - DATABASE_URL=file:/data/video-app.db
       - AUTH_SECRET=${AUTH_SECRET}
+      - AUTH_TRUST_HOST=true
       - NEXT_PUBLIC_SOCKET_URL=${NEXT_PUBLIC_SOCKET_URL}
     volumes:
       - uploads:/app/public/uploads
