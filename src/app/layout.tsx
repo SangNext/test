@@ -39,7 +39,7 @@ export default function RootLayout({
 
         <SessionProvider>
           <Navbar />
-          <main className="flex-1 relative z-10">{children}</main>
+          <main className="flex-1 relative z-10 pb-20 sm:pb-0">{children}</main>
         </SessionProvider>
       </body>
     </html>
