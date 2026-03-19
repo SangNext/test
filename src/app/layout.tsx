@@ -12,6 +12,7 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   title: "慧娴雅叙 - 视频分享与交流平台",
   description: "上传视频、分享讨论、交流互动",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
 };
 
 export default function RootLayout({
@@ -22,20 +23,12 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className={`${geistSans.variable} h-full`}>
       <body className="min-h-full flex flex-col font-sans">
-        {/* Animated background */}
-        <div className="magic-bg" />
-        <div className="stars">
-          <div className="star" /><div className="star" /><div className="star" />
-          <div className="star" /><div className="star" /><div className="star" />
-          <div className="star" /><div className="star" /><div className="star" />
-          <div className="star" /><div className="star" /><div className="star" />
-          <div className="star" /><div className="star" /><div className="star" />
-        </div>
-        <div className="particles">
-          <div className="particle" /><div className="particle" /><div className="particle" />
-          <div className="particle" /><div className="particle" /><div className="particle" />
-          <div className="particle" /><div className="particle" />
-        </div>
+        {/* Static ambient background - no movement, no shake */}
+        <div className="ambient-bg" />
+        <div className="starfield" />
+        <div className="glow-orb glow-orb-1" />
+        <div className="glow-orb glow-orb-2" />
+        <div className="glow-orb glow-orb-3" />
 
         <SessionProvider>
           <Navbar />
