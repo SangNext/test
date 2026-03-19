@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReplyList from "@/components/ReplyList";
+import PostActions from "@/components/PostActions";
 
 export default async function PostPage({
   params,
@@ -16,6 +17,8 @@ export default async function PostPage({
   });
 
   if (!post) notFound();
+
+  const images: string[] = post.images ? JSON.parse(post.images) : [];
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
@@ -39,7 +42,22 @@ export default async function PostPage({
             </p>
           </div>
         </div>
+
         <div className="mt-6 text-gray-300 leading-relaxed whitespace-pre-wrap">{post.content}</div>
+
+        {/* Images */}
+        {images.length > 0 && (
+          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {images.map((src, i) => (
+              <a key={i} href={src} target="_blank" rel="noopener noreferrer"
+                className="aspect-square rounded-xl overflow-hidden border border-white/10 hover:border-indigo-500/30 transition">
+                <img src={src} alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+              </a>
+            ))}
+          </div>
+        )}
+
+        <PostActions postId={post.id} />
       </div>
 
       <div className="bg-white/8 backdrop-blur-sm rounded-2xl border border-white/10 mt-6 p-6">

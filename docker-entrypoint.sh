@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS "Post" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
+    "images" TEXT,
     "authorId" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "Post_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
@@ -76,6 +77,24 @@ CREATE TABLE IF NOT EXISTS "Reply" (
     CONSTRAINT "Reply_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Reply_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS "PostLike" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "postId" TEXT NOT NULL,
+    CONSTRAINT "PostLike_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "PostLike_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "PostLike_userId_postId_key" ON "PostLike"("userId", "postId");
+
+CREATE TABLE IF NOT EXISTS "PostFavorite" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "postId" TEXT NOT NULL,
+    CONSTRAINT "PostFavorite_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "PostFavorite_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "PostFavorite_userId_postId_key" ON "PostFavorite"("userId", "postId");
 SQL
   echo "Database tables created."
 else
@@ -103,6 +122,7 @@ CREATE TABLE IF NOT EXISTS "Post" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
+    "images" TEXT,
     "authorId" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "Post_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
@@ -117,7 +137,29 @@ CREATE TABLE IF NOT EXISTS "Reply" (
     CONSTRAINT "Reply_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Reply_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS "PostLike" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "postId" TEXT NOT NULL,
+    CONSTRAINT "PostLike_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "PostLike_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "PostLike_userId_postId_key" ON "PostLike"("userId", "postId");
+
+CREATE TABLE IF NOT EXISTS "PostFavorite" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "postId" TEXT NOT NULL,
+    CONSTRAINT "PostFavorite_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "PostFavorite_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "PostFavorite_userId_postId_key" ON "PostFavorite"("userId", "postId");
+
+-- Add images column if missing (for existing Post tables)
+-- SQLite doesn't support IF NOT EXISTS for ALTER TABLE, so we ignore errors
 SQL
+  sqlite3 "$DB_PATH" "ALTER TABLE Post ADD COLUMN images TEXT;" 2>/dev/null || true
   echo "Database already initialized, checked for new tables."
 fi
 
