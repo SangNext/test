@@ -14,16 +14,16 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
+    <nav className="bg-white/5 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/30">
               <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
-            <span className="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent hidden sm:inline">
+            <span className="text-lg font-bold bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent hidden sm:inline">
               慧娴雅叙
             </span>
           </Link>
@@ -37,8 +37,8 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? "bg-indigo-50 text-indigo-600"
-                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+                      ? "bg-indigo-500/20 text-indigo-300"
+                      : "text-gray-400 hover:text-white hover:bg-white/10"
                   }`}
                 >
                   {link.label}
@@ -53,23 +53,23 @@ export default function Navbar() {
             <>
               <Link
                 href="/upload"
-                className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-200"
+                className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-200"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
                 上传
               </Link>
-              <div className="flex items-center gap-2 bg-gray-100 rounded-full pl-3 pr-1 py-1">
+              <div className="flex items-center gap-2 bg-white/10 rounded-full pl-3 pr-1 py-1 border border-white/10">
                 <div className="w-6 h-6 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center">
                   <span className="text-white text-xs font-bold">
                     {session.user.name?.charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <span className="text-gray-700 text-sm font-medium">{session.user.name}</span>
+                <span className="text-gray-200 text-sm font-medium">{session.user.name}</span>
                 <button
                   onClick={() => signOut()}
-                  className="text-gray-400 hover:text-gray-600 p-1.5 rounded-full hover:bg-gray-200 transition"
+                  className="text-gray-400 hover:text-white p-1.5 rounded-full hover:bg-white/10 transition"
                   title="登出"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -82,13 +82,13 @@ export default function Navbar() {
             <>
               <Link
                 href="/login"
-                className="text-gray-600 text-sm font-medium hover:text-gray-900 transition px-3 py-2"
+                className="text-gray-300 text-sm font-medium hover:text-white transition px-3 py-2"
               >
                 登录
               </Link>
               <Link
                 href="/register"
-                className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-5 py-2 rounded-full text-sm font-medium hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-200"
+                className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-5 py-2 rounded-full text-sm font-medium hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-200"
               >
                 注册
               </Link>

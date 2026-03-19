@@ -23,8 +23,8 @@ export default function VideoCard({
 }: VideoCardProps) {
   return (
     <Link href={`/video/${id}`} className="group block">
-      <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100/50 hover:-translate-y-1">
-        <div className="aspect-video bg-gray-900 relative overflow-hidden">
+      <div className="bg-white/8 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-1">
+        <div className="aspect-video bg-black/40 relative overflow-hidden">
           <video
             src={filePath}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -37,7 +37,7 @@ export default function VideoCard({
               v.currentTime = 0;
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <div className="bg-black/70 text-white text-xs px-2 py-1 rounded-md backdrop-blur-sm">
               点击播放
@@ -45,7 +45,7 @@ export default function VideoCard({
           </div>
         </div>
         <div className="p-4">
-          <h3 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+          <h3 className="font-semibold text-gray-100 line-clamp-2 group-hover:text-indigo-300 transition-colors">
             {title}
           </h3>
           <div className="flex items-center mt-3">
@@ -54,9 +54,9 @@ export default function VideoCard({
                 {authorName.charAt(0).toUpperCase()}
               </span>
             </div>
-            <span className="text-sm text-gray-600 font-medium">{authorName}</span>
+            <span className="text-sm text-gray-400 font-medium">{authorName}</span>
           </div>
-          <div className="flex items-center justify-between mt-3 text-xs text-gray-400">
+          <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">

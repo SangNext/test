@@ -21,10 +21,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN" className={`${geistSans.variable} h-full`}>
-      <body className="min-h-full flex flex-col bg-gray-50 font-sans">
+      <body className="min-h-full flex flex-col font-sans">
+        {/* Animated background */}
+        <div className="magic-bg" />
+        <div className="stars">
+          <div className="star" /><div className="star" /><div className="star" />
+          <div className="star" /><div className="star" /><div className="star" />
+          <div className="star" /><div className="star" /><div className="star" />
+          <div className="star" /><div className="star" /><div className="star" />
+          <div className="star" /><div className="star" /><div className="star" />
+        </div>
+        <div className="particles">
+          <div className="particle" /><div className="particle" /><div className="particle" />
+          <div className="particle" /><div className="particle" /><div className="particle" />
+          <div className="particle" /><div className="particle" />
+        </div>
+
         <SessionProvider>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 relative z-10">{children}</main>
         </SessionProvider>
       </body>
     </html>
