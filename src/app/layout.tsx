@@ -10,8 +10,8 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "VideoHub - 视频分享平台",
-  description: "上传、分享和评论视频",
+  title: "慧娴雅叙 - 视频分享与交流平台",
+  description: "上传视频、分享讨论、交流互动",
 };
 
 export default function RootLayout({

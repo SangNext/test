@@ -42,7 +42,7 @@ export default function LoginPage() {
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">欢迎回来</h1>
-          <p className="text-gray-500 text-sm mt-1">登录你的 VideoHub 账号</p>
+          <p className="text-gray-500 text-sm mt-1">登录你的慧娴雅叙账号</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100/50 p-8">

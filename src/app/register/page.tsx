@@ -44,7 +44,7 @@ export default function RegisterPage() {
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">创建账号</h1>
-          <p className="text-gray-500 text-sm mt-1">加入 VideoHub，分享精彩视频</p>
+          <p className="text-gray-500 text-sm mt-1">加入慧娴雅叙，分享精彩内容</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100/50 p-8">
