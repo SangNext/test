@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS "Video" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
     "description" TEXT,
+    "category" TEXT NOT NULL DEFAULT '生活',
     "filePath" TEXT NOT NULL,
     "thumbnail" TEXT,
     "visible" BOOLEAN NOT NULL DEFAULT 1,
@@ -167,6 +168,7 @@ SQL
   sqlite3 "$DB_PATH" "ALTER TABLE User ADD COLUMN isAdmin BOOLEAN NOT NULL DEFAULT 0;" 2>/dev/null || true
   sqlite3 "$DB_PATH" "ALTER TABLE Video ADD COLUMN visible BOOLEAN NOT NULL DEFAULT 1;" 2>/dev/null || true
   sqlite3 "$DB_PATH" "ALTER TABLE Post ADD COLUMN visible BOOLEAN NOT NULL DEFAULT 1;" 2>/dev/null || true
+  sqlite3 "$DB_PATH" "ALTER TABLE Video ADD COLUMN category TEXT NOT NULL DEFAULT '生活';" 2>/dev/null || true
   echo "Database already initialized, checked for new tables."
 fi
 

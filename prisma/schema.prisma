@@ -28,6 +28,7 @@ model Video {
   id          String     @id @default(cuid())
   title       String
   description String?
+  category    String     @default("生活")
   filePath    String
   thumbnail   String?
   visible     Boolean    @default(true)

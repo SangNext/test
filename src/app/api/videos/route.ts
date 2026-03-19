@@ -22,6 +22,7 @@ export async function POST(request: Request) {
   const formData = await request.formData();
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
+  const category = (formData.get("category") as string) || "生活";
   const file = formData.get("file") as File;
 
   if (!title || !file) {
@@ -39,6 +40,7 @@ export async function POST(request: Request) {
     data: {
       title,
       description: description || null,
+      category,
       filePath: `/uploads/${fileName}`,
       authorId: session.user.id,
     },

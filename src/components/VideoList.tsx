@@ -7,6 +7,7 @@ import { getSocket } from "@/lib/socket";
 interface Video {
   id: string;
   title: string;
+  category?: string;
   filePath: string;
   createdAt: string;
   author: { name: string };

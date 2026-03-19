@@ -4,10 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSocket } from "@/lib/socket";
 
+const CATEGORIES = ["生活", "音乐", "游戏", "科技", "搞笑", "知识"];
+
 export default function UploadForm() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("生活");
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -26,6 +29,7 @@ export default function UploadForm() {
     const formData = new FormData();
     formData.append("title", title.trim());
     formData.append("description", description.trim());
+    formData.append("category", category);
     formData.append("file", file);
     const xhr = new XMLHttpRequest();
     xhr.upload.addEventListener("progress", (e) => {
@@ -44,22 +48,40 @@ export default function UploadForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-1.5">视频标题 *</label>
+        <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wide">视频标题 *</label>
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="给你的视频起个标题"
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-indigo-500/50 transition" required />
+          className="input-dark" required />
       </div>
+
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-1.5">描述</label>
+        <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wide">分类</label>
+        <div className="flex flex-wrap gap-2">
+          {CATEGORIES.map((c) => (
+            <button key={c} type="button" onClick={() => setCategory(c)}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 border ${
+                category === c
+                  ? "bg-indigo-500/20 text-indigo-300 border-indigo-500/30"
+                  : "bg-white/[0.03] text-gray-500 border-white/[0.06] hover:text-gray-300 hover:bg-white/[0.06]"
+              }`}>
+              {c}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wide">描述</label>
         <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="介绍一下这个视频（可选）" rows={3}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-indigo-500/50 transition resize-none" />
+          className="input-dark !rounded-xl resize-none" />
       </div>
+
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-1.5">视频文件 *</label>
+        <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wide">视频文件 *</label>
         <div
           className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-200 cursor-pointer ${
-            dragOver ? "border-indigo-400 bg-indigo-500/10" : file ? "border-green-500/30 bg-green-500/5" : "border-white/10 bg-white/5 hover:border-indigo-500/30 hover:bg-indigo-500/5"
+            dragOver ? "border-indigo-400 bg-indigo-500/10" : file ? "border-green-500/30 bg-green-500/5" : "border-white/[0.08] bg-white/[0.02] hover:border-indigo-500/20 hover:bg-indigo-500/5"
           }`}
           onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
           onDragLeave={() => setDragOver(false)}
@@ -88,17 +110,17 @@ export default function UploadForm() {
           <input id="file-input" type="file" accept="video/*" onChange={(e) => handleFile(e.target.files?.[0] || null)} className="hidden" />
         </div>
       </div>
-      {error && <div className="bg-red-500/10 text-red-400 text-sm px-4 py-3 rounded-xl border border-red-500/20">{error}</div>}
+
+      {error && <div className="bg-red-500/10 text-red-400 text-sm px-4 py-2.5 rounded-xl border border-red-500/15">{error}</div>}
       {uploading && (
         <div>
           <div className="flex justify-between text-sm text-gray-400 mb-2"><span>上传中...</span><span>{progress}%</span></div>
-          <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+          <div className="w-full bg-white/[0.06] rounded-full h-2 overflow-hidden">
             <div className="bg-gradient-to-r from-indigo-500 to-purple-600 h-2 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         </div>
       )}
-      <button type="submit" disabled={uploading || !title.trim() || !file}
-        className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3.5 rounded-xl font-medium hover:shadow-lg hover:shadow-indigo-500/25 disabled:opacity-50 transition-all duration-200 text-lg">
+      <button type="submit" disabled={uploading || !title.trim() || !file} className="btn-primary w-full !text-base !py-3.5">
         {uploading ? `上传中 ${progress}%` : "上传视频"}
       </button>
     </form>
