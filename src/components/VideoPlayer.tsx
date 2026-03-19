@@ -7,7 +7,7 @@ interface VideoPlayerProps {
 
 export default function VideoPlayer({ src, title }: VideoPlayerProps) {
   return (
-    <div className="aspect-video bg-black rounded-xl overflow-hidden">
+    <div className="aspect-video bg-black">
       <video
         src={src}
         controls

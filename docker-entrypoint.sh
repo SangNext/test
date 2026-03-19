@@ -39,10 +39,48 @@ CREATE TABLE IF NOT EXISTS "Comment" (
     CONSTRAINT "Comment_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Comment_videoId_fkey" FOREIGN KEY ("videoId") REFERENCES "Video" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS "Like" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "videoId" TEXT NOT NULL,
+    CONSTRAINT "Like_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Like_videoId_fkey" FOREIGN KEY ("videoId") REFERENCES "Video" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "Like_userId_videoId_key" ON "Like"("userId", "videoId");
+
+CREATE TABLE IF NOT EXISTS "Favorite" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "videoId" TEXT NOT NULL,
+    CONSTRAINT "Favorite_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Favorite_videoId_fkey" FOREIGN KEY ("videoId") REFERENCES "Video" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "Favorite_userId_videoId_key" ON "Favorite"("userId", "videoId");
 SQL
   echo "Database tables created."
 else
-  echo "Database already initialized."
+  # Ensure new tables exist on existing databases
+  sqlite3 "$DB_PATH" <<'SQL'
+CREATE TABLE IF NOT EXISTS "Like" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "videoId" TEXT NOT NULL,
+    CONSTRAINT "Like_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Like_videoId_fkey" FOREIGN KEY ("videoId") REFERENCES "Video" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "Like_userId_videoId_key" ON "Like"("userId", "videoId");
+
+CREATE TABLE IF NOT EXISTS "Favorite" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "videoId" TEXT NOT NULL,
+    CONSTRAINT "Favorite_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Favorite_videoId_fkey" FOREIGN KEY ("videoId") REFERENCES "Video" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "Favorite_userId_videoId_key" ON "Favorite"("userId", "videoId");
+SQL
+  echo "Database already initialized, checked for new tables."
 fi
 
 echo "Starting Next.js server..."

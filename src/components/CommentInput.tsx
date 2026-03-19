@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 interface CommentInputProps {
   videoId: string;
@@ -15,9 +16,14 @@ export default function CommentInput({ videoId, onCommented }: CommentInputProps
 
   if (!session?.user) {
     return (
-      <p className="text-sm text-gray-400 bg-gray-50 rounded-lg p-3 text-center">
-        请先登录后发表评论
-      </p>
+      <div className="bg-gray-50 rounded-xl p-4 text-center">
+        <p className="text-sm text-gray-500">
+          <Link href="/login" className="text-indigo-600 font-medium hover:underline">
+            登录
+          </Link>
+          {" "}后发表评论
+        </p>
+      </div>
     );
   }
 
@@ -40,21 +46,28 @@ export default function CommentInput({ videoId, onCommented }: CommentInputProps
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
-      <input
-        type="text"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="写下你的评论..."
-        className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 transition"
-      />
-      <button
-        type="submit"
-        disabled={loading || !content.trim()}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50 transition"
-      >
-        {loading ? "发送中..." : "发送"}
-      </button>
+    <form onSubmit={handleSubmit} className="flex gap-3">
+      <div className="w-8 h-8 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+        <span className="text-white text-xs font-bold">
+          {session.user.name?.charAt(0).toUpperCase()}
+        </span>
+      </div>
+      <div className="flex-1 flex gap-2">
+        <input
+          type="text"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="写下你的评论..."
+          className="flex-1 bg-gray-50 border-0 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition"
+        />
+        <button
+          type="submit"
+          disabled={loading || !content.trim()}
+          className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-5 py-2 rounded-full text-sm font-medium hover:shadow-lg hover:shadow-indigo-500/25 disabled:opacity-50 transition-all duration-200"
+        >
+          {loading ? "..." : "发送"}
+        </button>
+      </div>
     </form>
   );
 }

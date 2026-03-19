@@ -5,7 +5,10 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const videos = await prisma.video.findMany({
-    include: { author: { select: { name: true } } },
+    include: {
+      author: { select: { name: true } },
+      _count: { select: { likes: true, comments: true } },
+    },
     orderBy: { createdAt: "desc" },
   });
 
@@ -15,11 +18,17 @@ export default async function HomePage() {
     filePath: v.filePath,
     createdAt: v.createdAt.toISOString(),
     author: { name: v.author.name },
+    _count: v._count,
   }));
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">最新视频</h1>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">
+          发现精彩视频
+        </h1>
+        <p className="text-gray-500 mt-1">浏览最新上传的视频内容</p>
+      </div>
       <VideoList initialVideos={serializedVideos} />
     </div>
   );

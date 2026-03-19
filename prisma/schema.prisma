@@ -8,25 +8,29 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
-  email     String    @unique
+  email     String     @unique
   password  String
   videos    Video[]
   comments  Comment[]
-  createdAt DateTime  @default(now())
+  likes     Like[]
+  favorites Favorite[]
+  createdAt DateTime   @default(now())
 }
 
 model Video {
-  id          String    @id @default(cuid())
+  id          String     @id @default(cuid())
   title       String
   description String?
   filePath    String
   thumbnail   String?
-  author      User      @relation(fields: [authorId], references: [id])
+  author      User       @relation(fields: [authorId], references: [id])
   authorId    String
   comments    Comment[]
-  createdAt   DateTime  @default(now())
+  likes       Like[]
+  favorites   Favorite[]
+  createdAt   DateTime   @default(now())
 }
 
 model Comment {
@@ -37,4 +41,24 @@ model Comment {
   video     Video    @relation(fields: [videoId], references: [id])
   videoId   String
   createdAt DateTime @default(now())
+}
+
+model Like {
+  id      String @id @default(cuid())
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  video   Video  @relation(fields: [videoId], references: [id])
+  videoId String
+
+  @@unique([userId, videoId])
+}
+
+model Favorite {
+  id      String @id @default(cuid())
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  video   Video  @relation(fields: [videoId], references: [id])
+  videoId String
+
+  @@unique([userId, videoId])
 }
