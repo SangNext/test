@@ -25,6 +25,9 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Install sqlite3 for database initialization
+RUN apk add --no-cache sqlite
+
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
@@ -37,12 +40,8 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 RUN mkdir -p /app/public/uploads
 
-# Copy Prisma files for migrations
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
+# Copy Prisma generated client
 COPY --from=builder /app/src/generated ./src/generated
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
 # Copy entrypoint script
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
