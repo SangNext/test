@@ -85,7 +85,7 @@ function BottomTabBar({ pathname, isLoggedIn }: { pathname: string; isLoggedIn: 
       match: (p: string) => p.startsWith("/forum"),
     },
     {
-      href: isLoggedIn ? "/upload" : "/login",
+      href: "/upload",
       label: "上传",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -96,7 +96,7 @@ function BottomTabBar({ pathname, isLoggedIn }: { pathname: string; isLoggedIn: 
       highlight: true,
     },
     {
-      href: isLoggedIn ? "/chat" : "/login",
+      href: "/chat",
       label: "聊天",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
