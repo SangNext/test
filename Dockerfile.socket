@@ -1,0 +1,14 @@
+FROM node:20-alpine
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
+# Install tsx for running TypeScript
+RUN npm install tsx
+
+COPY src/server ./src/server
+
+EXPOSE 3001
+
+CMD ["npx", "tsx", "src/server/socket-server.ts"]
