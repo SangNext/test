@@ -10,6 +10,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Ensure public/uploads directory exists
+RUN mkdir -p public/uploads
+
 # Generate Prisma client
 RUN npx prisma generate
 
@@ -27,9 +30,12 @@ RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
 # Copy standalone build
-COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+
+# Copy public assets (favicon etc.) and create uploads dir
+COPY --from=builder /app/public ./public
+RUN mkdir -p /app/public/uploads
 
 # Copy Prisma files for migrations
 COPY --from=builder /app/prisma ./prisma
@@ -41,8 +47,8 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 # Copy entrypoint script
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
 
-# Create directories for data and uploads
-RUN mkdir -p /data /app/public/uploads && \
+# Create data directory and set permissions
+RUN mkdir -p /data && \
     chown -R nextjs:nodejs /data /app/public/uploads /app
 
 USER nextjs
