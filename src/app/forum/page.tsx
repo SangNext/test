@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic";
 
 export default async function ForumPage() {
   const posts = await prisma.post.findMany({
+    where: { visible: true },
     include: {
       author: { select: { name: true } },
       _count: { select: { replies: true, likes: true, favorites: true } },

@@ -5,6 +5,7 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const videos = await prisma.video.findMany({
+    where: { visible: true },
     include: {
       author: { select: { name: true } },
       _count: { select: { likes: true, comments: true } },

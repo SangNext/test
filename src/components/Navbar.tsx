@@ -26,6 +26,11 @@ export default function Navbar() {
 
           {session?.user ? (
             <div className="flex items-center gap-2">
+              {(session.user as { isAdmin?: boolean }).isAdmin && (
+                <Link href="/admin" className="text-xs bg-yellow-500/20 text-yellow-400 px-2.5 py-1 rounded-full border border-yellow-500/30 hover:bg-yellow-500/30 transition">
+                  管理
+                </Link>
+              )}
               <div className="w-8 h-8 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center">
                 <span className="text-white text-sm font-bold">
                   {session.user.name?.charAt(0).toUpperCase()}
